@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import life.shank.android.AutoScoped
 
-class MainActivity : AppCompatActivity(), AutoScoped {
+class MainActivity : AppCompatActivity() {
 
     lateinit var controller: LiveData<NavController>
 
