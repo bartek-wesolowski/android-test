@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hr.models.Movie
 
-class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+class MoviesAdapter(private val onMovieClick: (Movie) -> Unit) : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
 
     private var movies = emptyList<Movie>()
 
@@ -19,14 +19,16 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
     override fun getItemCount(): Int = movies.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.movie_item_view, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.movie_item_view, parent, false),
+        onMovieClick
     )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) = holder.bind(movies[position])
 
-    data class MovieViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
+    data class MovieViewHolder(private val itemView: View, private val onMovieClick: (Movie) -> Unit) : RecyclerView.ViewHolder(itemView) {
         fun bind(movie: Movie) {
             itemView.findViewById<TextView>(R.id.titleTextView).text = movie.name.value
+            itemView.setOnClickListener { onMovieClick(movie) }
         }
     }
 }

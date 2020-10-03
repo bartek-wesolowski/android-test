@@ -3,7 +3,10 @@ package com.hr.test
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.hr.models.Movie
 import com.hr.test.MoviesModule.moviesViewModel
 import com.koduok.mvi.android.shank.collectStatesOn
 import life.shank.android.AutoScoped
@@ -17,7 +20,9 @@ abstract class BaseMovieRecyclerViewFragment : Fragment(R.layout.fragment_recycl
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = MoviesAdapter()
+        val adapter = MoviesAdapter(onMovieClick = { movie ->
+            findNavController().navigate(createMovieDetailsAction(movie))
+        })
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = createLayoutManager()
         recyclerView.adapter = adapter
@@ -27,4 +32,6 @@ abstract class BaseMovieRecyclerViewFragment : Fragment(R.layout.fragment_recycl
     }
 
     protected abstract fun createLayoutManager(): RecyclerView.LayoutManager
+
+    protected abstract fun createMovieDetailsAction(movie: Movie): NavDirections
 }

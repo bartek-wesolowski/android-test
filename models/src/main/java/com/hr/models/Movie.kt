@@ -1,4 +1,6 @@
 package com.hr.models
 
-data class Movie(val name: Name)
+import java.io.Serializable
+
+data class Movie(val name: Name) : Serializable
 inline class Name(val value: String)
