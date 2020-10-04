@@ -36,7 +36,7 @@ abstract class BaseMovieRecyclerViewFragment : Fragment(R.layout.fragment_recycl
             this.adapter = adapter
         }
         moviesViewModel.collectStatesOn(this) { _, state ->
-            adapter.setItems(state.items)
+            adapter.submitList(state.items)
         }
     }
 
