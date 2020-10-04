@@ -1,5 +1,6 @@
 package com.hr.test
 
+import com.hr.core.MovieDetailsViewModel
 import com.hr.core.MoviesLikeManager
 import com.hr.core.MoviesViewModel
 import life.shank.ShankModule
@@ -11,4 +12,5 @@ object MoviesModule : ShankModule {
     private val moviesSource = new { -> DummyMoviesSourceThatShouldBeReplaced() }
     private val moviesLikeManager = single { -> MoviesLikeManager() }
     val moviesViewModel = scoped { -> MoviesViewModel(moviesSource(), moviesLikeManager()) }
+    val movieDetailsViewModel = scoped { -> MovieDetailsViewModel(moviesLikeManager()) }
 }

@@ -61,7 +61,7 @@ class MoviesViewModel(
     sealed class Input {
         internal object Refresh : Input()
         internal data class ToggleLike(val item: MovieItem) : Input()
-        object RefreshLikes : Input()
+        internal object RefreshLikes : Input()
     }
 
     sealed class State {
