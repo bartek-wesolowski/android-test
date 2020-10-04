@@ -2,10 +2,13 @@ package com.hr.test
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.hr.core.MoviesViewModel.State.Idle
+import com.hr.core.MoviesViewModel.State.Loading
 import com.hr.models.Movie
 import com.hr.test.MoviesModule.moviesViewModel
 import com.koduok.mvi.android.shank.collectStatesOn
@@ -36,6 +39,7 @@ abstract class BaseMovieRecyclerViewFragment : Fragment(R.layout.fragment_recycl
         }
         moviesViewModel.collectStatesOn(this) { _, state ->
             adapter.submitList(state.items)
+            view.findViewById<ProgressBar>(R.id.progressBar).visibility = if (state is Idle || state is Loading) View.VISIBLE else View.GONE
         }
     }
 
