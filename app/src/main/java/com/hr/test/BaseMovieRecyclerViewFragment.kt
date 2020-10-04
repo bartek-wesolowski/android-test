@@ -27,7 +27,6 @@ abstract class BaseMovieRecyclerViewFragment : Fragment(R.layout.fragment_recycl
             onToggleLike = { movie ->
                 moviesViewModel.onReadyFor(this) {
                     it.toggleLike(movie)
-                    it.refresh()
                 }
             }
         )
