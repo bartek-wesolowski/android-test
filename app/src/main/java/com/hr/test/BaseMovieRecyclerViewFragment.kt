@@ -20,14 +20,23 @@ abstract class BaseMovieRecyclerViewFragment : Fragment(R.layout.fragment_recycl
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = MoviesAdapter(onMovieClick = { movie ->
-            findNavController().navigate(createMovieDetailsAction(movie))
-        })
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = createLayoutManager()
-        recyclerView.adapter = adapter
+        val adapter = MoviesAdapter(
+            onMovieClick = { movie ->
+                findNavController().navigate(createMovieDetailsAction(movie))
+            },
+            onToggleLike = { movie ->
+                moviesViewModel.onReadyFor(this) {
+                    it.toggleLike(movie)
+                    it.refresh()
+                }
+            }
+        )
+        view.findViewById<RecyclerView>(R.id.recyclerView).apply {
+            layoutManager = createLayoutManager()
+            this.adapter = adapter
+        }
         moviesViewModel.collectStatesOn(this) { _, state ->
-            adapter.setMovies(state.movies)
+            adapter.setItems(state.items)
         }
     }
 

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class MoviesViewModelTest {
 
     private val moviesSource = FakeMoviesSource()
-    private val viewModel by lazy { MoviesViewModel(moviesSource) }
+    private val viewModel by lazy { MoviesViewModel(moviesSource, MoviesLikeManager()) }
 
     @Test
     internal fun `starts loading movies automatically`() {
@@ -27,7 +27,7 @@ internal class MoviesViewModelTest {
 
         assertThat(viewModel.state)
             .isInstanceOf(Loaded::class)
-            .transform { it.movies }
+            .transform { state -> state.items.map { it.movie } }
             .isEqualTo(movies)
     }
 
@@ -42,13 +42,13 @@ internal class MoviesViewModelTest {
         viewModel.refresh()
         assertThat(viewModel.state)
             .isInstanceOf(Loading::class)
-            .transform { it.movies }
+            .transform { state -> state.items.map { it.movie } }
             .isEqualTo(movies)
 
         moviesSource.getMovies.complete(refreshedMovies)
         assertThat(viewModel.state)
             .isInstanceOf(Loaded::class)
-            .transform { it.movies }
+            .transform { state -> state.items.map { it.movie } }
             .isEqualTo(refreshedMovies)
     }
 
